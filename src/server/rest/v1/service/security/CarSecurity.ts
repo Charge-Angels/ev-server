@@ -1,4 +1,4 @@
-import { HttpCarCatalogImagesRequest, HttpCarCatalogRequest, HttpCarCatalogsRequest, HttpCarCreateRequest, HttpCarMakersRequest, HttpCarRequest, HttpCarUpdateRequest, HttpCarsRequest } from '../../../../../types/requests/HttpCarRequest';
+import { HttpCarCatalogImagesRequest, HttpCarCatalogRequest, HttpCarCatalogsRequest, HttpCarCreateRequest, HttpCarMakersRequest, HttpCarRequest, HttpCarUpdateRequest, HttpCarsRequest } from '../../../../../types/requests/v1/HttpCarRequest';
 
 import Utils from '../../../../../utils/Utils';
 import UtilsSecurity from './UtilsSecurity';

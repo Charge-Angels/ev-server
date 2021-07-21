@@ -1,4 +1,4 @@
-import { HttpAssignAssetsToSiteAreaRequest, HttpAssignChargingStationToSiteAreaRequest, HttpSiteAreaConsumptionsRequest, HttpSiteAreaImageRequest, HttpSiteAreaRequest, HttpSiteAreasRequest } from '../../../../../types/requests/HttpSiteAreaRequest';
+import { HttpAssignAssetsToSiteAreaRequest, HttpAssignChargingStationToSiteAreaRequest, HttpSiteAreaConsumptionsRequest, HttpSiteAreaImageRequest, HttpSiteAreaRequest, HttpSiteAreasRequest } from '../../../../../types/requests/v1/HttpSiteAreaRequest';
 
 import SiteArea from '../../../../../types/SiteArea';
 import Utils from '../../../../../utils/Utils';

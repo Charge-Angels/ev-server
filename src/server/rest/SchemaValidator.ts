@@ -1,11 +1,11 @@
 import Ajv from 'ajv';
-import AppError from '../../../../exception/AppError';
-import Constants from '../../../../utils/Constants';
-import { HTTPError } from '../../../../types/HTTPError';
-import Schema from '../../../../types/validator/Schema';
+import AppError from '../../exception/AppError';
+import Constants from '../../utils/Constants';
+import { HTTPError } from '../../types/HTTPError';
+import Schema from '../../types/validator/Schema';
 import ajvSanitizer from 'ajv-sanitizer';
 import fs from 'fs';
-import global from '../../../../types/GlobalType';
+import global from '../../types/GlobalType';
 import sanitize from 'mongo-sanitize';
 
 const extraSanitizers = {

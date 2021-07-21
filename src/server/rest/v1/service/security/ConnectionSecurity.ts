@@ -1,5 +1,5 @@
 import Connection from '../../../../../types/Connection';
-import { HttpConnectionsRequest } from '../../../../../types/requests/HttpConnectionRequest';
+import { HttpConnectionsRequest } from '../../../../../types/requests/v1/HttpConnectionRequest';
 import UtilsSecurity from './UtilsSecurity';
 import sanitize from 'mongo-sanitize';
 

@@ -1,4 +1,4 @@
-import { HttpLogRequest, HttpLogsRequest } from '../../../../../types/requests/HttpLoggingRequest';
+import { HttpLogRequest, HttpLogsRequest } from '../../../../../types/requests/v1/HttpLoggingRequest';
 
 import UtilsSecurity from './UtilsSecurity';
 import sanitize from 'mongo-sanitize';

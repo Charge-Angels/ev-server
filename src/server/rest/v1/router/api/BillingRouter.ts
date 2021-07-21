@@ -2,7 +2,7 @@ import { ServerAction, ServerRoute } from '../../../../../types/Server';
 import express, { NextFunction, Request, Response } from 'express';
 
 import BillingService from '../../service/BillingService';
-import RouterUtils from '../RouterUtils';
+import RouterUtils from '../../../RouterUtils';
 
 export default class BillingRouter {
   private router: express.Router;

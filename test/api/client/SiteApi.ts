@@ -36,14 +36,14 @@ export default class SiteApi extends CrudApi {
   }
 
   public async addSitesToUser(userId: string, siteIds: string[]) {
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_SITES, { id: userId });
+    const url = this.buildRestEndpointUrl(1, ServerRoute.REST_USER_SITES, { id: userId });
     return super.create({
       siteIDs: siteIds,
     }, url);
   }
 
   public async unassignSitesToUser(userId: string, siteIds: string[]) {
-    const url = this.buildRestEndpointUrl(ServerRoute.REST_USER_SITES, { id: userId });
+    const url = this.buildRestEndpointUrl(1, ServerRoute.REST_USER_SITES, { id: userId });
     return super.update({
       siteIDs: siteIds,
     }, url);

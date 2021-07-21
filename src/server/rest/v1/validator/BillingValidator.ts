@@ -1,6 +1,6 @@
 import { BillingSettings } from '../../../../types/Setting';
 import Schema from '../../../../types/validator/Schema';
-import SchemaValidator from './SchemaValidator';
+import SchemaValidator from '../../SchemaValidator';
 import fs from 'fs';
 import global from '../../../../types/GlobalType';
 

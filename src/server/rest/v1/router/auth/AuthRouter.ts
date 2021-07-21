@@ -3,7 +3,7 @@ import { ServerAction, ServerRoute } from '../../../../../types/Server';
 import express, { NextFunction, Request, Response } from 'express';
 
 import AuthService from '../../service/AuthService';
-import RouterUtils from '../RouterUtils';
+import RouterUtils from '../../../RouterUtils';
 
 export default class AuthRouter {
   private router: express.Router;

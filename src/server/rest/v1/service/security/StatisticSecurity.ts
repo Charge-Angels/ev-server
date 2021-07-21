@@ -1,4 +1,4 @@
-import HttpStatisticsRequest, { HttpMetricsStatisticsRequest } from '../../../../../types/requests/HttpStatisticRequest';
+import HttpStatisticsRequest, { HttpMetricsStatisticsRequest } from '../../../../../types/requests/v1/HttpStatisticRequest';
 
 import Utils from '../../../../../utils/Utils';
 import sanitize from 'mongo-sanitize';

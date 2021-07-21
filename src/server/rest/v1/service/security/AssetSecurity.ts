@@ -1,4 +1,4 @@
-import { HttpAssetConsumptionRequest, HttpAssetImageRequest, HttpAssetRequest, HttpAssetsRequest } from '../../../../../types/requests/HttpAssetRequest';
+import { HttpAssetConsumptionRequest, HttpAssetImageRequest, HttpAssetRequest, HttpAssetsRequest } from '../../../../../types/requests/v1/HttpAssetRequest';
 
 import Asset from '../../../../../types/Asset';
 import Utils from '../../../../../utils/Utils';

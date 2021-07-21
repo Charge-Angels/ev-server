@@ -1,4 +1,4 @@
-import { HttpEndUserReportErrorRequest, HttpNotificationRequest } from '../../../../../types/requests/HttpNotificationRequest';
+import { HttpEndUserReportErrorRequest, HttpNotificationRequest } from '../../../../../types/requests/v1/HttpNotificationRequest';
 
 import UtilsSecurity from './UtilsSecurity';
 import sanitize from 'mongo-sanitize';

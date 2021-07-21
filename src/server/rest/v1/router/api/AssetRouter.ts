@@ -3,7 +3,7 @@ import { ServerAction, ServerRoute } from '../../../../../types/Server';
 import express, { NextFunction, Request, Response } from 'express';
 
 import AssetService from '../../service/AssetService';
-import RouterUtils from '../RouterUtils';
+import RouterUtils from '../../../RouterUtils';
 
 export default class AssetRouter {
   private router: express.Router;

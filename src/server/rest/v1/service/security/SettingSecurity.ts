@@ -1,5 +1,5 @@
 import { AnalyticsSettingsType, AssetConnectionSetting, AssetConnectionType, AssetSettingsType, BillingSettingsType, CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorSettingsType, ConcurRefundSetting, CryptoSettingsType, OcpiBusinessDetails, OcpiSetting, OicpBusinessDetails, OicpSetting, PricingSettingsType, RefundSettingsType, RoamingSettingsType, SettingDB, SettingDBContent, SettingLink, SimplePricingSetting, SmartChargingSettingsType, UserSettingsType } from '../../../../../types/Setting';
-import { HttpSettingRequest, HttpSettingsRequest } from '../../../../../types/requests/HttpSettingRequest';
+import { HttpSettingRequest, HttpSettingsRequest } from '../../../../../types/requests/v1/HttpSettingRequest';
 
 import Utils from '../../../../../utils/Utils';
 import UtilsSecurity from './UtilsSecurity';

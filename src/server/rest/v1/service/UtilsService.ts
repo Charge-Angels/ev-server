@@ -20,7 +20,7 @@ import Constants from '../../../../utils/Constants';
 import Cypher from '../../../../utils/Cypher';
 import { DataResult } from '../../../../types/DataResult';
 import { EntityDataType } from '../../../../types/GlobalType';
-import { HttpEndUserReportErrorRequest } from '../../../../types/requests/HttpNotificationRequest';
+import { HttpEndUserReportErrorRequest } from '../../../../types/requests/v1/HttpNotificationRequest';
 import Logging from '../../../../utils/Logging';
 import OCPIEndpoint from '../../../../types/ocpi/OCPIEndpoint';
 import OICPEndpoint from '../../../../types/oicp/OICPEndpoint';

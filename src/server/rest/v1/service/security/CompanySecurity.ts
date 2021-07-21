@@ -1,4 +1,4 @@
-import { HttpCompaniesRequest, HttpCompanyLogoRequest, HttpCompanyRequest } from '../../../../../types/requests/HttpCompanyRequest';
+import { HttpCompaniesRequest, HttpCompanyLogoRequest, HttpCompanyRequest } from '../../../../../types/requests/v1/HttpCompanyRequest';
 
 import Company from '../../../../../types/Company';
 import Utils from '../../../../../utils/Utils';

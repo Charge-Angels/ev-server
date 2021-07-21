@@ -3,7 +3,7 @@
   "servers": [
     {
       "description": "Current server",
-      "url": "/v1"
+      "url": "/"
     }
   ],
   "info": {
@@ -42,7 +42,7 @@
     }
   ],
   "paths": {
-    "/api/tenants": {
+    "/v1/api/tenants": {
       "get": {
         "description": "Retrieve a list of Tenants",
         "security": [
@@ -158,7 +158,7 @@
         }
       }
     },
-    "/api/tenants/{tenantID}": {
+    "/v1/api/tenants/{tenantID}": {
       "get": {
         "description": "Retrieve a Tenant",
         "security": [
@@ -242,7 +242,7 @@
         }
       }
     },
-    "/auth/signin": {
+    "/v1/auth/signin": {
       "post": {
         "description": "Sign in",
         "requestBody": {
@@ -309,7 +309,7 @@
         }
       }
     },
-    "/auth/signon": {
+    "/v1/auth/signon": {
       "post": {
         "description": "Register",
         "requestBody": {
@@ -386,7 +386,7 @@
         }
       }
     },
-    "/auth/signout": {
+    "/v1/auth/signout": {
       "get": {
         "description": "Sign out",
         "tags": [
@@ -402,7 +402,7 @@
         }
       }
     },
-    "/auth/password/reset": {
+    "/v1/auth/password/reset": {
       "post": {
         "description": "Reset password",
         "requestBody": {
@@ -471,7 +471,7 @@
         }
       }
     },
-    "/auth/eula": {
+    "/v1/auth/eula": {
       "get": {
         "description": "Get tenant EULA",
         "parameters": [
@@ -517,7 +517,7 @@
         }
       }
     },
-    "/auth/eula/check": {
+    "/v1/auth/eula/check": {
       "get": {
         "description": "Check if a user accepted latest EULA",
         "parameters": [
@@ -572,7 +572,7 @@
         }
       }
     },
-    "/auth/mail/check": {
+    "/v1/auth/mail/check": {
       "get": {
         "description": "Verify email",
         "parameters": [
@@ -625,7 +625,7 @@
         }
       }
     },
-    "/auth/mail/resend": {
+    "/v1/auth/mail/resend": {
       "post": {
         "description": "Resend a verification email",
         "requestBody": {
@@ -675,7 +675,7 @@
         }
       }
     },
-    "/api/transactions": {
+    "/v1/api/transactions": {
       "get": {
         "security": [
           {
@@ -894,7 +894,7 @@
         }
       }
     },
-    "/api/transactions/{id}": {
+    "/v1/api/transactions/{id}": {
       "get": {
         "security": [
           {
@@ -973,7 +973,7 @@
         }
       }
     },
-    "/api/transactions/{id}/consumptions": {
+    "/v1/api/transactions/{id}/consumptions": {
       "get": {
         "security": [
           {
@@ -1081,7 +1081,7 @@
         }
       }
     },
-    "/api/charging-stations": {
+    "/v1/api/charging-stations": {
       "get": {
         "security": [
           {
@@ -1131,6 +1131,20 @@
           },
           {
             "$ref": "#/components/parameters/LocMaxDistanceMeters"
+          },
+          {
+            "in": "query",
+            "name": "Status",
+            "description": "Charging Station status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "in-error"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ChargingStationErrorTypes"
           },
           {
             "$ref": "#/components/parameters/Limit"
@@ -1266,7 +1280,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}": {
+    "/v1/api/charging-stations/{id}": {
       "get": {
         "security": [
           {
@@ -1462,7 +1476,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/reset": {
+    "/v1/api/charging-stations/{id}/reset": {
       "put": {
         "security": [
           {
@@ -1525,7 +1539,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/cache/clear": {
+    "/v1/api/charging-stations/{id}/cache/clear": {
       "put": {
         "security": [
           {
@@ -1583,7 +1597,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/configuration/retrieve": {
+    "/v1/api/charging-stations/{id}/configuration/retrieve": {
       "put": {
         "security": [
           {
@@ -1681,7 +1695,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/configuration": {
+    "/v1/api/charging-stations/{id}/configuration": {
       "put": {
         "security": [
           {
@@ -1746,7 +1760,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/remote/start": {
+    "/v1/api/charging-stations/{id}/remote/start": {
       "put": {
         "security": [
           {
@@ -1853,7 +1867,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/remote/stop": {
+    "/v1/api/charging-stations/{id}/remote/stop": {
       "put": {
         "security": [
           {
@@ -1944,7 +1958,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/connectors/{connectorId}/unlock": {
+    "/v1/api/charging-stations/{id}/connectors/{connectorId}/unlock": {
       "put": {
         "security": [
           {
@@ -2008,7 +2022,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/compositeschedule": {
+    "/v1/api/charging-stations/{id}/compositeschedule": {
       "put": {
         "security": [
           {
@@ -2151,7 +2165,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/diagnostics": {
+    "/v1/api/charging-stations/{id}/diagnostics": {
       "put": {
         "security": [
           {
@@ -2247,7 +2261,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/firmware/update": {
+    "/v1/api/charging-stations/{id}/firmware/update": {
       "put": {
         "security": [
           {
@@ -2324,7 +2338,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/availability/change": {
+    "/v1/api/charging-stations/{id}/availability/change": {
       "put": {
         "security": [
           {
@@ -2426,7 +2440,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/connectors/{connectorId}/qrcode/generate": {
+    "/v1/api/charging-stations/{id}/connectors/{connectorId}/qrcode/generate": {
       "get": {
         "security": [
           {
@@ -2478,7 +2492,7 @@
         }
       }
     },
-    "/api/charging-stations/qrcode/download": {
+    "/v1/api/charging-stations/qrcode/download": {
       "get": {
         "security": [
           {
@@ -2531,7 +2545,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/ocpp/parameters": {
+    "/v1/api/charging-stations/{id}/ocpp/parameters": {
       "get": {
         "security": [
           {
@@ -2607,7 +2621,7 @@
         }
       }
     },
-    "/api/charging-stations/ocpp/parameters": {
+    "/v1/api/charging-stations/ocpp/parameters": {
       "post": {
         "security": [
           {
@@ -2664,7 +2678,7 @@
         }
       }
     },
-    "/api/charging-stations/ocpp/parameters/export": {
+    "/v1/api/charging-stations/ocpp/parameters/export": {
       "get": {
         "security": [
           {
@@ -2704,7 +2718,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/parameters": {
+    "/v1/api/charging-stations/{id}/parameters": {
       "put": {
         "security": [
           {
@@ -2791,7 +2805,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/power/limit": {
+    "/v1/api/charging-stations/{id}/power/limit": {
       "put": {
         "security": [
           {
@@ -2861,7 +2875,7 @@
         }
       }
     },
-    "/api/charging-stations/{id}/transactions": {
+    "/v1/api/charging-stations/{id}/transactions": {
       "get": {
         "security": [
           {
@@ -3072,7 +3086,7 @@
         }
       }
     },
-    "/api/charging-stations/status/in-error": {
+    "/v1/api/charging-stations/status/in-error": {
       "get": {
         "security": [
           {
@@ -3091,7 +3105,7 @@
             "$ref": "#/components/parameters/SiteAreaIDs"
           },
           {
-            "$ref": "#/components/parameters/ErrorTypes"
+            "$ref": "#/components/parameters/ChargingStationErrorTypes"
           },
           {
             "$ref": "#/components/parameters/Skip"
@@ -3128,7 +3142,7 @@
         }
       }
     },
-    "/api/charging-stations/action/export": {
+    "/v1/api/charging-stations/action/export": {
       "get": {
         "security": [
           {
@@ -3204,7 +3218,7 @@
         }
       }
     },
-    "/api/charging-stations/firmware/download": {
+    "/v1/api/charging-stations/firmware/download": {
       "get": {
         "security": [
           {
@@ -3248,7 +3262,7 @@
         }
       }
     },
-    "/api/charging-stations/smartcharging/connection/check": {
+    "/v1/api/charging-stations/smartcharging/connection/check": {
       "get": {
         "security": [
           {
@@ -3275,7 +3289,7 @@
         }
       }
     },
-    "/api/charging-stations/smartcharging/trigger": {
+    "/v1/api/charging-stations/smartcharging/trigger": {
       "get": {
         "security": [
           {
@@ -3307,7 +3321,7 @@
         }
       }
     },
-    "/api/charging-stations/notifications/boot": {
+    "/v1/api/charging-stations/notifications/boot": {
       "get": {
         "security": [
           {
@@ -3369,7 +3383,7 @@
         }
       }
     },
-    "/api/charging-stations/notifications/status": {
+    "/v1/api/charging-stations/notifications/status": {
       "get": {
         "security": [
           {
@@ -3427,7 +3441,7 @@
         }
       }
     },
-    "/api/assets/{id}/consumption": {
+    "/v1/api/assets/{id}/consumption": {
       "post": {
         "security": [
           {
@@ -3479,7 +3493,7 @@
         }
       }
     },
-    "/api/charging-profiles": {
+    "/v1/api/charging-profiles": {
       "get": {
         "security": [
           {
@@ -3731,7 +3745,7 @@
         }
       }
     },
-    "/api/charging-profiles/{id}": {
+    "/v1/api/charging-profiles/{id}": {
       "put": {
         "security": [
           {
@@ -3824,7 +3838,7 @@
         }
       }
     },
-    "/api/users": {
+    "/v1/api/users": {
       "get": {
         "security": [
           {
@@ -3966,7 +3980,7 @@
         }
       }
     },
-    "/api/users/{id}": {
+    "/v1/api/users/{id}": {
       "get": {
         "security": [
           {
@@ -4154,7 +4168,7 @@
         }
       }
     },
-    "/api/users/{id}/default-car-tag": {
+    "/v1/api/users/{id}/default-car-tag": {
       "get": {
         "security": [
           {
@@ -4210,7 +4224,7 @@
         }
       }
     },
-    "/api/users/{id}/sites": {
+    "/v1/api/users/{id}/sites": {
       "get": {
         "security": [
           {
@@ -4368,7 +4382,7 @@
         }
       }
     },
-    "/api/users/{id}/mobile-token": {
+    "/v1/api/users/{id}/mobile-token": {
       "put": {
         "security": [
           {
@@ -4424,7 +4438,7 @@
         }
       }
     },
-    "/api/users/{id}/image": {
+    "/v1/api/users/{id}/image": {
       "get": {
         "security": [
           {
@@ -4482,7 +4496,7 @@
         }
       }
     },
-    "/api/users/status/in-error": {
+    "/v1/api/users/status/in-error": {
       "get": {
         "security": [
           {
@@ -4564,7 +4578,7 @@
         }
       }
     },
-    "/api/users/action/import": {
+    "/v1/api/users/action/import": {
       "post": {
         "security": [
           {
@@ -4616,7 +4630,7 @@
         }
       }
     },
-    "/api/users/action/export": {
+    "/v1/api/users/action/export": {
       "get": {
         "security": [
           {
@@ -4692,7 +4706,7 @@
         }
       }
     },
-    "/api/tags": {
+    "/v1/api/tags": {
       "get": {
         "security": [
           {
@@ -4882,7 +4896,7 @@
         }
       }
     },
-    "/api/tags/{id}": {
+    "/v1/api/tags/{id}": {
       "get": {
         "security": [
           {
@@ -5063,7 +5077,7 @@
         }
       }
     },
-    "/api/tags/action/import": {
+    "/v1/api/tags/action/import": {
       "post": {
         "security": [
           {
@@ -5116,7 +5130,7 @@
         }
       }
     },
-    "/api/tags/action/export": {
+    "/v1/api/tags/action/export": {
       "get": {
         "security": [
           {
@@ -6207,7 +6221,7 @@
           "type": "string"
         }
       },
-      "ErrorTypes": {
+      "ChargingStationErrorTypes": {
         "in": "query",
         "name": "ErrorType",
         "description": "Pipe separated error types (missing_settings, connection_broken, missing_site_area, connection_error)",

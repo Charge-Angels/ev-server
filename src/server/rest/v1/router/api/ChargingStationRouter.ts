@@ -3,7 +3,7 @@ import { ServerAction, ServerRoute } from '../../../../../types/Server';
 import express, { NextFunction, Request, Response } from 'express';
 
 import ChargingStationService from '../../service/ChargingStationService';
-import RouterUtils from '../RouterUtils';
+import RouterUtils from '../../../RouterUtils';
 import TransactionService from '../../service/TransactionService';
 
 export default class ChargingStationRouter {

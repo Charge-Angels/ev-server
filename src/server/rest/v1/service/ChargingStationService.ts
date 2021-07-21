@@ -18,7 +18,7 @@ import Constants from '../../../../utils/Constants';
 import CpoOCPIClient from '../../../../client/ocpi/CpoOCPIClient';
 import CpoOICPClient from '../../../../client/oicp/CpoOICPClient';
 import { DataResult } from '../../../../types/DataResult';
-import { HttpChargingStationCommandRequest } from '../../../../types/requests/HttpChargingStationRequest';
+import { HttpChargingStationCommandRequest } from '../../../../types/requests/v1/HttpChargingStationRequest';
 import I18nManager from '../../../../utils/I18nManager';
 import LockingHelper from '../../../../locking/LockingHelper';
 import LockingManager from '../../../../locking/LockingManager';

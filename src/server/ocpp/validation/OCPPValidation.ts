@@ -4,7 +4,7 @@ import BackendError from '../../../exception/BackendError';
 import ChargingStation from '../../../types/ChargingStation';
 import Logging from '../../../utils/Logging';
 import Schema from '../../../types/validator/Schema';
-import SchemaValidator from '../../rest/v1/validator/SchemaValidator';
+import SchemaValidator from '../../rest/SchemaValidator';
 import { ServerAction } from '../../../types/Server';
 import Utils from '../../../utils/Utils';
 import fs from 'fs';

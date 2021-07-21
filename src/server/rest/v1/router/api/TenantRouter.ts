@@ -2,7 +2,7 @@
 import { ServerAction, ServerRoute } from '../../../../../types/Server';
 import express, { NextFunction, Request, Response } from 'express';
 
-import RouterUtils from '../RouterUtils';
+import RouterUtils from '../../../RouterUtils';
 import TenantService from '../../service/TenantService';
 import sanitize from 'mongo-sanitize';
 

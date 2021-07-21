@@ -1,4 +1,4 @@
-import { HttpOICPEndpointsRequest } from '../../../../../types/requests/HttpOICPEndpointRequest';
+import { HttpOICPEndpointsRequest } from '../../../../../types/requests/v1/HttpOICPEndpointRequest';
 import OICPEndpoint from '../../../../../types/oicp/OICPEndpoint';
 import UtilsSecurity from './UtilsSecurity';
 import sanitize from 'mongo-sanitize';

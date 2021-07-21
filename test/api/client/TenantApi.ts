@@ -12,11 +12,11 @@ export default class TenantApi extends CrudApi {
   }
 
   public async readById(id) {
-    return super.readById(id, this.buildRestEndpointUrl(ServerRoute.REST_TENANT, { id }));
+    return super.readById(id, this.buildRestEndpointUrl(1, ServerRoute.REST_TENANT, { id }));
   }
 
   public async readAll(params, paging = TestConstants.DEFAULT_PAGING, ordering = TestConstants.DEFAULT_ORDERING) {
-    return super.readAll(params, paging, ordering, this.buildRestEndpointUrl(ServerRoute.REST_TENANTS));
+    return super.readAll(params, paging, ordering, this.buildRestEndpointUrl(1, ServerRoute.REST_TENANTS));
   }
 
   public async create(data) {

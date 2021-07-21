@@ -11,8 +11,9 @@ import ChangeNotification from '../../types/ChangeNotification';
 import Configuration from '../../utils/Configuration';
 import Constants from '../../utils/Constants';
 import ExpressUtils from '../ExpressUtils';
-import GlobalRouter from './v1/router/GlobalRouter';
 import Logging from '../../utils/Logging';
+import { default as RouterV1 } from './v1/router/GlobalRouter';
+import { default as RouterV2 } from './v2/router/GlobalRouter';
 import { ServerAction } from '../../types/Server';
 import { ServerUtils } from '../ServerUtils';
 import UserToken from '../../types/UserToken';
@@ -43,7 +44,8 @@ export default class CentralRestServer {
     // Authentication
     this.expressApplication.use(AuthService.initialize());
     // Routers
-    this.expressApplication.use('/v1', new GlobalRouter().buildRoutes());
+    this.expressApplication.use('/v1', new RouterV1().buildRoutes());
+    this.expressApplication.use('/v2', new RouterV2().buildRoutes());
     // Secured API
     this.expressApplication.all('/client/api/:action',
       AuthService.authenticate(),

@@ -29,26 +29,26 @@ export default class BillingApi extends CrudApi {
   }
 
   public async downloadInvoiceDocument(params?) {
-    return await super.read(params, super.buildRestEndpointUrl(ServerRoute.REST_BILLING_DOWNLOAD_INVOICE, params));
+    return await super.read(params, super.buildRestEndpointUrl(1, ServerRoute.REST_BILLING_DOWNLOAD_INVOICE, params));
   }
 
   public async getBillingSetting(params?) {
-    return await super.read(params, super.buildRestEndpointUrl(ServerRoute.REST_BILLING_SETTING, params));
+    return await super.read(params, super.buildRestEndpointUrl(1, ServerRoute.REST_BILLING_SETTING, params));
   }
 
   public async checkBillingConnection(params?) {
-    return await super.create(params, super.buildRestEndpointUrl(ServerRoute.REST_BILLING_CHECK, params));
+    return await super.create(params, super.buildRestEndpointUrl(1, ServerRoute.REST_BILLING_CHECK, params));
   }
 
   public async clearBillingTestData(params?) {
-    return await super.create(params, super.buildRestEndpointUrl(ServerRoute.REST_BILLING_CLEAR_TEST_DATA, params));
+    return await super.create(params, super.buildRestEndpointUrl(1, ServerRoute.REST_BILLING_CLEAR_TEST_DATA, params));
   }
 
   public async updateBillingSetting(params?) {
-    return await super.update(params, super.buildRestEndpointUrl(ServerRoute.REST_BILLING_SETTING, params));
+    return await super.update(params, super.buildRestEndpointUrl(1, ServerRoute.REST_BILLING_SETTING, params));
   }
 
   public async readInvoices(params, paging = TestConstants.DEFAULT_PAGING, ordering = TestConstants.DEFAULT_ORDERING) {
-    return super.readAll(params, paging, ordering, super.buildRestEndpointUrl(ServerRoute.REST_BILLING_INVOICES, params));
+    return super.readAll(params, paging, ordering, super.buildRestEndpointUrl(1, ServerRoute.REST_BILLING_INVOICES, params));
   }
 }

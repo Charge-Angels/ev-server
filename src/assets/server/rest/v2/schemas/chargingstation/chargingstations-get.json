@@ -1,0 +1,93 @@
+{
+  "title": "Get Charging Stations Request",
+  "type": "object",
+  "properties": {
+    "Issuer": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "Search": {
+      "$ref": "common.json#/definitions/search"
+    },
+    "WithNoSiteArea": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "SiteID": {
+      "$ref": "common.json#/definitions/ids"
+    },
+    "CompanyID": {
+      "$ref": "common.json#/definitions/ids"
+    },
+    "WithSite": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "WithSiteArea": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "SiteAreaID": {
+      "$ref": "common.json#/definitions/ids"
+    },
+    "ConnectorStatus": {
+      "type": "string",
+      "pattern": "^((Available|Preparing|Charging|Occupied|SuspendedEVSE|SuspendedEV|Finishing|Reserved|Unavailable|Faulted)(\\||Available|Preparing|Charging|Occupied|SuspendedEVSE|SuspendedEV|Finishing|Reserved|Unavailable|Faulted)*)?$",
+      "sanitize": "mongo"
+    },
+    "ConnectorType": {
+      "type": "string",
+      "pattern": "^((T2|CCS|C|T1|T3C|T1CCS|D|U)(\\||T2|CCS|C|T1|T3C|T1CCS|D|U)*)?$",
+      "sanitize": "mongo"
+    },
+    "ChargingStationID": {
+      "$ref": "chargingstation.json#/definitions/ids"
+    },
+    "IncludeDeleted": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "LocLongitude": {
+      "type": "number",
+      "format": "longitude",
+      "sanitize": "mongo"
+    },
+    "LocLatitude": {
+      "type": "number",
+      "format": "latitude",
+      "sanitize": "mongo"
+    },
+    "LocMaxDistanceMeters": {
+      "type": "number",
+      "sanitize": "mongo",
+      "exclusiveMinimum": 0
+    },
+    "ErrorType": {
+      "type": "string",
+      "sanitize": "mongo"
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "in-error"
+      ],
+      "sanitize": "mongo"
+    },
+    "Limit": {
+      "$ref": "common.json#/definitions/limit"
+    },
+    "SortFields": {
+      "$ref": "common.json#/definitions/sortFields"
+    },
+    "Skip": {
+      "$ref": "common.json#/definitions/skip"
+    },
+    "OnlyRecordCount": {
+      "$ref": "common.json#/definitions/onlyRecordCount"
+    },
+    "ProjectFields": {
+      "$ref": "common.json#/definitions/projectFields"
+    }
+  },
+  "required": []
+}

@@ -1,4 +1,4 @@
-import { HttpSiteAssignUsersRequest, HttpSiteImageRequest, HttpSiteOwnerRequest, HttpSiteRequest, HttpSiteUserAdminRequest, HttpSiteUsersRequest, HttpSitesRequest } from '../../../../../types/requests/HttpSiteRequest';
+import { HttpSiteAssignUsersRequest, HttpSiteImageRequest, HttpSiteOwnerRequest, HttpSiteRequest, HttpSiteUserAdminRequest, HttpSiteUsersRequest, HttpSitesRequest } from '../../../../../types/requests/v1/HttpSiteRequest';
 
 import Site from '../../../../../types/Site';
 import Utils from '../../../../../utils/Utils';

@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Handler, NextFunction, Request, RequestHandler, Response } from 'express';
-import { HttpLoginRequest, HttpResetPasswordRequest } from '../../../../types/requests/HttpUserRequest';
+import { HttpLoginRequest, HttpResetPasswordRequest } from '../../../../types/requests/v1/HttpUserRequest';
 import User, { UserRole, UserStatus } from '../../../../types/User';
 
 import AppError from '../../../../exception/AppError';

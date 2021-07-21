@@ -1,0 +1,61 @@
+{
+  "title": "Get Users",
+  "type": "object",
+  "definitions": {
+    "Issuer": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "WithTag": {
+      "type": "boolean",
+      "sanitize": "mongo"
+    },
+    "SiteID": {
+      "$ref": "common.json#/definitions/ids"
+    },
+    "UserID": {
+      "$ref": "user.json#/definitions/ids"
+    },
+    "Roles": {
+      "type": "string",
+      "sanitize": "mongo",
+      "pattern": "^[SABD](\\|[SABD])*$"
+    },
+    "UserStatus": {
+      "type": "string",
+      "sanitize": "mongo",
+      "pattern": "^[PAIBL](\\|[PAIBL])*$"
+    },
+    "Status": {
+      "type": "string",
+      "sanitize": "mongo"
+    },
+    "ErrorType": {
+      "type": "string",
+      "sanitize": "mongo",
+      "pattern": "^((inactive_user|unassigned_user|inactive_user_account|failed_billing_synchro|no_billing_data)(\\||inactive_user|unassigned_user|inactive_user_account|failed_billing_synchro|no_billing_data)*)$"
+    },
+    "ExcludeSiteID": {
+      "$ref": "common.json#/definitions/ids"
+    },
+    "TagID": {
+      "$ref": "tag.json#/definitions/ids"
+    },
+    "Search": {
+      "$ref": "common.json#/definitions/search"
+    },
+    "SortFields": {
+      "$ref": "common.json#/definitions/sortFields"
+    },
+    "Skip": {
+      "$ref": "common.json#/definitions/skip"
+    },
+    "OnlyRecordCount": {
+      "$ref": "common.json#/definitions/onlyRecordCount"
+    },
+    "ProjectFields": {
+      "$ref": "common.json#/definitions/projectFields"
+    }
+  },
+  "required": []
+}

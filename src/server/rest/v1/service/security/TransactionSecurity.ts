@@ -1,4 +1,4 @@
-import { HttpAssignTransactionsToUserRequest, HttpConsumptionFromTransactionRequest, HttpPushTransactionCdrRequest, HttpTransactionRequest, HttpTransactionsRefundRequest, HttpTransactionsRequest, HttpUnassignTransactionsToUserRequest } from '../../../../../types/requests/HttpTransactionRequest';
+import { HttpAssignTransactionsToUserRequest, HttpConsumptionFromTransactionRequest, HttpPushTransactionCdrRequest, HttpTransactionRequest, HttpTransactionsRefundRequest, HttpTransactionsRequest, HttpUnassignTransactionsToUserRequest } from '../../../../../types/requests/v1/HttpTransactionRequest';
 
 import Utils from '../../../../../utils/Utils';
 import UtilsSecurity from './UtilsSecurity';

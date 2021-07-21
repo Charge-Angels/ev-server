@@ -1,7 +1,7 @@
 import { OICPAuthorizeRemoteStartCpoReceive, OICPAuthorizeRemoteStopCpoReceive } from '../../../types/oicp/OICPAuthorize';
 
 import Schema from '../../../types/validator/Schema';
-import SchemaValidator from '../../rest/v1/validator/SchemaValidator';
+import SchemaValidator from '../../rest/SchemaValidator';
 import fs from 'fs';
 import global from '../../../types/GlobalType';
 

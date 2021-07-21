@@ -7,7 +7,7 @@ import AppAuthError from '../../../../exception/AppAuthError';
 import Authorizations from '../../../../authorization/Authorizations';
 import Constants from '../../../../utils/Constants';
 import { HTTPAuthError } from '../../../../types/HTTPError';
-import HttpStatisticsRequest from '../../../../types/requests/HttpStatisticRequest';
+import HttpStatisticsRequest from '../../../../types/requests/v1/HttpStatisticRequest';
 import { ServerAction } from '../../../../types/Server';
 import StatisticSecurity from './security/StatisticSecurity';
 import StatisticsStorage from '../../../../storage/mongodb/StatisticsStorage';

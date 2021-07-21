@@ -134,14 +134,14 @@ export default class CrudApi {
   }
 
   // Build URL targeting REST endpoints
-  protected buildRestEndpointUrl(urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}): string {
+  protected buildRestEndpointUrl(apiVersion: number, urlPatternAsString: ServerRoute, params: { [name: string]: string | number | null } = {}): string {
     let resolvedUrlPattern = urlPatternAsString as string;
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         resolvedUrlPattern = resolvedUrlPattern.replace(`:${key}`, encodeURIComponent(params[key]));
       }
     }
-    return '/v1/api/' + resolvedUrlPattern;
+    return `/v${apiVersion}/api/${resolvedUrlPattern}`;
   }
 
   // Build the paging in the Queryparam

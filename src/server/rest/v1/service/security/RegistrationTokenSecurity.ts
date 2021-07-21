@@ -1,4 +1,4 @@
-import { HttpRegistrationTokensRequest } from '../../../../../types/requests/HttpRegistrationToken';
+import { HttpRegistrationTokensRequest } from '../../../../../types/requests/v1/HttpRegistrationToken';
 import RegistrationToken from '../../../../../types/RegistrationToken';
 import UtilsSecurity from './UtilsSecurity';
 import sanitize from 'mongo-sanitize';

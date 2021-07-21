@@ -1,4 +1,4 @@
-import { HttpOCPIEndpointsRequest } from '../../../../../types/requests/HttpOCPIEndpointRequest';
+import { HttpOCPIEndpointsRequest } from '../../../../../types/requests/v1/HttpOCPIEndpointRequest';
 import OCPIEndpoint from '../../../../../types/ocpi/OCPIEndpoint';
 import UtilsSecurity from './UtilsSecurity';
 import sanitize from 'mongo-sanitize';
