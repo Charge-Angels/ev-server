@@ -1275,7 +1275,7 @@ describe('Smart Charging Service', function() {
         }
       } as Asset;
       // Create Assets
-      await AssetStorage.saveAsset(testData.tenantContext.getTenant().id, testData.newAsset);
+      await AssetStorage.saveAsset(testData.tenantContext.getTenant(), testData.newAsset);
     });
 
     after(async () => {
@@ -1287,7 +1287,7 @@ describe('Smart Charging Service', function() {
       testData.siteAreaContext.getSiteArea().maximumPower = 200000;
       await testData.userService.siteAreaApi.update(testData.siteAreaContext.getSiteArea());
 
-      await AssetStorage.deleteAsset(testData.tenantContext.getTenant().id, testData.newAsset.id);
+      await AssetStorage.deleteAsset(testData.tenantContext.getTenant(), testData.newAsset.id);
     });
 
 
@@ -1319,7 +1319,7 @@ describe('Smart Charging Service', function() {
       testData.newAsset.lastConsumption = { timestamp: new Date('2021-02-05T14:16:19.001Z'), value: 0 };
       testData.siteAreaContext.getSiteArea().maximumPower = 120000;
       await testData.userService.siteAreaApi.update(testData.siteAreaContext.getSiteArea());
-      await AssetStorage.saveAsset(testData.tenantContext.getTenant().id, testData.newAsset);
+      await AssetStorage.saveAsset(testData.tenantContext.getTenant(), testData.newAsset);
       await testData.chargingStationContext.startTransaction(1, testData.userContext.tags[0].id, 180, new Date);
       chargingStationConnector1Charging.timestamp = new Date().toISOString();
       await testData.chargingStationContext.setConnectorStatus(chargingStationConnector1Charging);
@@ -1344,7 +1344,7 @@ describe('Smart Charging Service', function() {
       testData.siteAreaContext.getSiteArea().maximumPower = 22080;
       await testData.userService.siteAreaApi.update(testData.siteAreaContext.getSiteArea());
       testData.newAsset.excludeFromSmartCharging = true;
-      await AssetStorage.saveAsset(testData.tenantContext.getTenant().id, testData.newAsset);
+      await AssetStorage.saveAsset(testData.tenantContext.getTenant(), testData.newAsset);
       const chargingProfiles = await smartChargingIntegration.buildChargingProfiles(testData.siteAreaContext.getSiteArea());
       expect(chargingProfiles[0].profile.chargingSchedule.chargingSchedulePeriod).containSubset(limit96);
     });
@@ -1359,7 +1359,7 @@ describe('Smart Charging Service', function() {
       testData.newAsset.assetType = AssetType.PRODUCTION;
       testData.newAsset.excludeFromSmartCharging = false;
       testData.newAsset.lastConsumption = { timestamp: new Date(), value: 0 };
-      await AssetStorage.saveAsset(testData.tenantContext.getTenant().id, testData.newAsset);
+      await AssetStorage.saveAsset(testData.tenantContext.getTenant(), testData.newAsset);
       const chargingProfiles = await smartChargingIntegration.buildChargingProfiles(testData.siteAreaContext.getSiteArea());
       expect(chargingProfiles[0].profile.chargingSchedule.chargingSchedulePeriod).containSubset([
         {

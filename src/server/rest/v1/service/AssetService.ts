@@ -49,7 +49,7 @@ export default class AssetService {
       });
     }
     // Get it
-    const asset = await AssetStorage.getAsset(req.user.tenantID, filteredRequest.AssetID, {},
+    const asset = await AssetStorage.getAsset(req.tenant, filteredRequest.AssetID, {},
       [ 'id', 'name' ]
     );
     UtilsService.assertObjectExists(action, asset, `Asset ID '${filteredRequest.AssetID}' does not exist`,
@@ -109,7 +109,7 @@ export default class AssetService {
       });
     }
     // Get Asset
-    const asset = await AssetStorage.getAsset(req.user.tenantID, filteredRequest.assetID, { withSiteArea: true });
+    const asset = await AssetStorage.getAsset(req.tenant, filteredRequest.assetID, { withSiteArea: true });
     UtilsService.assertObjectExists(action, asset, `Asset ID '${filteredRequest.assetID}' does not exist`,
       MODULE_NAME, 'handleCreateAssetConsumption', req.user);
     // Check if connection ID exists
@@ -185,7 +185,7 @@ export default class AssetService {
     asset.currentStateOfCharge = filteredRequest.stateOfCharge;
     asset.lastConsumption = { timestamp: consumptionToSave.endedAt, value: consumptionToSave.consumptionWh };
     // Save Asset
-    await AssetStorage.saveAsset(req.user.tenantID, asset);
+    await AssetStorage.saveAsset(req.tenant, asset);
     // Create response
     res.status(StatusCodes.CREATED).json(Object.assign({ consumption: consumptionToSave }, Constants.REST_RESPONSE_SUCCESS));
     next();
@@ -258,7 +258,7 @@ export default class AssetService {
     const assetID = AssetSecurity.filterAssetRequestByID(req.query);
     UtilsService.assertIdIsProvided(action, assetID, MODULE_NAME, 'handleRetrieveConsumption', req.user);
     // Get
-    const asset = await AssetStorage.getAsset(req.user.tenantID, assetID);
+    const asset = await AssetStorage.getAsset(req.tenant, assetID);
     UtilsService.assertObjectExists(action, asset, `Asset ID '${assetID}' does not exist`,
       MODULE_NAME, 'handleRetrieveConsumption', req.user);
     // Dynamic asset ?
@@ -318,7 +318,7 @@ export default class AssetService {
         asset.currentInstantWattsL3 = consumption.currentInstantWattsL3;
         asset.currentStateOfCharge = consumption.currentStateOfCharge;
         // Save Asset
-        await AssetStorage.saveAsset(req.user.tenantID, asset);
+        await AssetStorage.saveAsset(req.tenant, asset);
       }
     } else {
       // TODO: Return a specific HTTP code to tell the user that the consumption cannot be retrieved
@@ -346,7 +346,7 @@ export default class AssetService {
     // Build error type
     const errorType = (filteredRequest.ErrorType ? filteredRequest.ErrorType.split('|') : [AssetInErrorType.MISSING_SITE_AREA]);
     // Get the assets
-    const assets = await AssetStorage.getAssetsInError(req.user.tenantID,
+    const assets = await AssetStorage.getAssetsInError(req.tenant,
       {
         issuer: filteredRequest.Issuer,
         search: filteredRequest.Search,
@@ -384,7 +384,7 @@ export default class AssetService {
       });
     }
     // Get
-    const asset = await AssetStorage.getAsset(req.user.tenantID, filteredRequest.ID,
+    const asset = await AssetStorage.getAsset(req.tenant, filteredRequest.ID,
       { withSiteArea: filteredRequest.WithSiteArea });
     // Found?
     UtilsService.assertObjectExists(action, asset, `Asset ID '${filteredRequest.ID}' does not exist`,
@@ -400,7 +400,7 @@ export default class AssetService {
       });
     }
     // Delete
-    await AssetStorage.deleteAsset(req.user.tenantID, asset.id);
+    await AssetStorage.deleteAsset(req.tenant, asset.id);
     // Log
     await Logging.logSecurityInfo({
       tenantID: req.user.tenantID,
@@ -434,7 +434,7 @@ export default class AssetService {
       });
     }
     // Get it
-    const asset = await AssetStorage.getAsset(req.user.tenantID, filteredRequest.ID,
+    const asset = await AssetStorage.getAsset(req.tenant, filteredRequest.ID,
       { withSiteArea: filteredRequest.WithSiteArea });
     UtilsService.assertObjectExists(action, asset, `Asset ID '${filteredRequest.ID}' does not exist`,
       MODULE_NAME, 'handleGetAsset', req.user);
@@ -447,7 +447,7 @@ export default class AssetService {
     const filteredRequest = AssetSecurity.filterAssetImageRequest(req.query);
     UtilsService.assertIdIsProvided(action, filteredRequest.ID, MODULE_NAME, 'handleGetAssetImage', req.user);
     // Get it
-    const assetImage = await AssetStorage.getAssetImage(filteredRequest.TenantID, filteredRequest.ID);
+    const assetImage = await AssetStorage.getAssetImage(req.tenant, filteredRequest.ID);
     // Return
     if (assetImage?.image) {
       let header = 'image';
@@ -489,7 +489,7 @@ export default class AssetService {
       return;
     }
     // Get the assets
-    const assets = await AssetStorage.getAssets(req.user.tenantID,
+    const assets = await AssetStorage.getAssets(req.tenant,
       {
         search: filteredRequest.Search,
         issuer: filteredRequest.Issuer,
@@ -551,7 +551,7 @@ export default class AssetService {
       createdOn: new Date()
     } as Asset;
     // Save
-    newAsset.id = await AssetStorage.saveAsset(req.user.tenantID, newAsset);
+    newAsset.id = await AssetStorage.saveAsset(req.tenant, newAsset);
     // Log
     await Logging.logSecurityInfo({
       tenantID: req.user.tenantID,
@@ -590,7 +590,7 @@ export default class AssetService {
         MODULE_NAME, 'handleUpdateAsset', req.user);
     }
     // Check email
-    const asset = await AssetStorage.getAsset(req.user.tenantID, filteredRequest.id);
+    const asset = await AssetStorage.getAsset(req.tenant, filteredRequest.id);
     // Check
     UtilsService.assertObjectExists(action, asset, `Site Area ID '${filteredRequest.id}' does not exist`,
       MODULE_NAME, 'handleUpdateAsset', req.user);
@@ -624,7 +624,7 @@ export default class AssetService {
     asset.lastChangedBy = { 'id': req.user.id };
     asset.lastChangedOn = new Date();
     // Update Asset
-    await AssetStorage.saveAsset(req.user.tenantID, asset);
+    await AssetStorage.saveAsset(req.tenant, asset);
     // Log
     await Logging.logSecurityInfo({
       tenantID: req.user.tenantID,

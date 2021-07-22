@@ -178,7 +178,7 @@ export default class AuthorizationService {
         if (!Utils.isEmptyArray(filteredRequest.assetIDs)) {
           let foundInvalidAssetID = false;
           // Get Asset IDs already assigned to the site
-          const assetIDs = await AuthorizationService.getAssignedAssetIDs(tenant.id, siteArea.siteID);
+          const assetIDs = await AuthorizationService.getAssignedAssetIDs(tenant, siteArea.siteID);
           // Check if any of the Assets we want to unassign are missing
           for (const assetID of filteredRequest.assetIDs) {
             switch (action) {
@@ -616,9 +616,9 @@ export default class AuthorizationService {
     return sites.result.map((site) => site.id);
   }
 
-  private static async getAssignedAssetIDs(tenantID: string, siteID: string): Promise<string[]> {
+  private static async getAssignedAssetIDs(tenant: Tenant, siteID: string): Promise<string[]> {
     // Get the Assets assigned to the Site
-    const assets = await AssetStorage.getAssets(tenantID,
+    const assets = await AssetStorage.getAssets(tenant,
       {
         siteIDs: [siteID],
         // TODO: Uncomment when the bug will be fixed: https://github.com/sap-labs-france/ev-dashboard/issues/2266

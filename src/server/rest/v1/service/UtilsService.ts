@@ -417,7 +417,7 @@ export default class UtilsService {
       });
     }
     // Get Assets
-    const assets = (await AssetStorage.getAssets(tenant.id,
+    const assets = (await AssetStorage.getAssets(tenant,
       {
         assetIDs,
         ...additionalFilters,

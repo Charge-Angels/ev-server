@@ -30,7 +30,7 @@ export default class AssetGetConsumptionTask extends SchedulerTask {
       // Create Helper Array with site areas to trigger smart charging
       const triggerSmartChargingSiteAreas = [];
       // Get dynamic assets only
-      const dynamicAssets = await AssetStorage.getAssets(tenant.id,
+      const dynamicAssets = await AssetStorage.getAssets(tenant,
         {
           dynamicOnly: true,
           withSiteArea: true
@@ -83,7 +83,7 @@ export default class AssetGetConsumptionTask extends SchedulerTask {
                   this.assignAssetConsumption(asset, consumption);
                 }
                 // Save Asset
-                await AssetStorage.saveAsset(tenant.id, asset);
+                await AssetStorage.saveAsset(tenant, asset);
                 // Check if variation since last smart charging run exceeds the variation threshold
                 if (smartChargingActive && this.checkVariationSinceLastSmartChargingRun(asset)) {
                   // Check if Site Area is already pushed
