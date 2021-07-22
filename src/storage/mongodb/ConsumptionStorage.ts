@@ -1,4 +1,5 @@
-import global, { FilterParams } from '../../types/GlobalType';
+import { SiteAreaValueTypes, SiteAreaValues } from '../../types/SiteArea';
+import global, { FilterParams, GroupParams } from '../../types/GlobalType';
 
 import Constants from '../../utils/Constants';
 import Consumption from '../../types/Consumption';
@@ -183,8 +184,8 @@ export default class ConsumptionStorage {
   }
 
   static async getSiteAreaConsumptions(tenantID: string,
-      params: { siteAreaID: string; startDate: Date; endDate: Date },
-      projectFields?: string[]): Promise<Consumption[]> {
+      params: { siteAreaID: string; startDate: Date; endDate: Date},
+      projectFields?: string[]): Promise<SiteAreaValues> {
     // Debug
     const uniqueTimerID = Logging.traceStart(tenantID, MODULE_NAME, 'getSiteAreaConsumptions');
     // Check
@@ -215,54 +216,113 @@ export default class ConsumptionStorage {
         $match: filters
       });
     }
-    // Group consumption values per minute
-    aggregation.push({
-      $group: {
+    const facets = {};
+    // Specific filters for each type of data
+    const detailedGroups = [SiteAreaValueTypes.ASSET_CONSUMPTIONS,
+      SiteAreaValueTypes.ASSET_PRODUCTIONS,
+      SiteAreaValueTypes.CHARGING_STATION_CONSUMPTIONS,
+      SiteAreaValueTypes.NET_CONSUMPTIONS];
+    // Subset project fields
+    const projectFieldsNonNet = [...projectFields];
+    projectFieldsNonNet.splice(projectFieldsNonNet.indexOf('limitWatts'), 1);
+    projectFieldsNonNet.splice(projectFieldsNonNet.indexOf('limitAmps'), 1);
+    for (const detailedType of detailedGroups) {
+      // Create filters
+      const facetFilters: FilterParams = {};
+      // Type of query
+      if (detailedType === SiteAreaValueTypes.ASSET_CONSUMPTIONS) {
+        facetFilters.instantWatts = { '$gte': 0 };
+        facetFilters.assetID = { '$ne': null };
+      } else if (detailedType === SiteAreaValueTypes.ASSET_PRODUCTIONS) {
+        facetFilters.instantWatts = { '$lt': 0 };
+        facetFilters.assetID = { '$ne': null };
+      } else if (detailedType === SiteAreaValueTypes.CHARGING_STATION_CONSUMPTIONS) {
+        facetFilters.chargeBoxID = { '$ne': null };
+      }
+      // Create Aggregation
+      const facetAggregation = [];
+      // Filters
+      if (facetFilters) {
+        facetAggregation.push({
+          $match: facetFilters
+        });
+      }
+      // grouping fields
+      const groupFields : GroupParams = {
         _id: {
           year: { '$year': '$startedAt' },
           month: { '$month': '$startedAt' },
           day: { '$dayOfMonth': '$startedAt' },
           hour: { '$hour': '$startedAt' },
           minute: { '$minute': '$startedAt' }
-        },
-        instantWatts: { $sum: '$instantWatts' },
-        instantAmps: { $sum: '$instantAmps' },
-        limitWatts: { $last: '$limitSiteAreaWatts' },
-        limitAmps: { $last: '$limitSiteAreaAmps' }
-      }
-    });
-    // Rebuild the date
-    aggregation.push({
-      $addFields: {
-        startedAt: {
-          $dateFromParts: { 'year': '$_id.year', 'month': '$_id.month', 'day': '$_id.day', 'hour': '$_id.hour', 'minute': '$_id.minute' }
         }
+      };
+      groupFields.instantWattsPreAbs = { $sum: '$instantWatts' };
+      groupFields.instantAmpsPreAbs = { $sum: '$instantAmps' };
+      if (detailedType === SiteAreaValueTypes.NET_CONSUMPTIONS) {
+        groupFields.limitWatts = { $last: '$limitSiteAreaWatts' };
       }
-    });
-    // Same date
-    aggregation.push({
-      $addFields: {
-        endedAt: '$startedAt'
+      if (detailedType === SiteAreaValueTypes.NET_CONSUMPTIONS) {
+        groupFields.limitAmps = { $last: '$limitSiteAreaAmps' };
       }
-    });
-    // Convert Object ID to string
-    DatabaseUtils.pushConvertObjectIDToString(aggregation, 'siteID');
-    DatabaseUtils.pushConvertObjectIDToString(aggregation, 'siteAreaID');
-    DatabaseUtils.pushConvertObjectIDToString(aggregation, 'userID');
-    aggregation.push({
-      $sort: {
-        startedAt: 1
+      // Group consumption values per minute
+      facetAggregation.push({
+        $group: groupFields
+      });
+      // Rebuild the date
+      facetAggregation.push({
+        $addFields: {
+          startedAt: {
+            $dateFromParts: { 'year': '$_id.year', 'month': '$_id.month', 'day': '$_id.day', 'hour': '$_id.hour', 'minute': '$_id.minute' }
+          }
+        }
+      });
+      // Same date
+      // Convert instant watts / amps to absolute value
+      facetAggregation.push({
+        $addFields: {
+          endedAt: '$startedAt',
+          instantWatts: { $abs: '$instantWattsPreAbs' },
+          instantAmps: { $abs: '$instantAmpsPreAbs' }
+        }
+      });
+      // Convert Object ID to string
+      DatabaseUtils.pushConvertObjectIDToString(facetAggregation, 'siteID');
+      DatabaseUtils.pushConvertObjectIDToString(facetAggregation, 'siteAreaID');
+      DatabaseUtils.pushConvertObjectIDToString(facetAggregation, 'userID');
+      facetAggregation.push({
+        $sort: {
+          startedAt: 1
+        }
+      });
+      // Project
+      if (detailedType === SiteAreaValueTypes.NET_CONSUMPTIONS) {
+        DatabaseUtils.projectFields(facetAggregation, projectFields, ['_id']);
+      } else {
+        DatabaseUtils.projectFields(facetAggregation, projectFieldsNonNet, ['_id']);
       }
-    });
-    // Project
-    DatabaseUtils.projectFields(aggregation, projectFields, ['_id']);
+      // Add projection as field in facet
+      facets[detailedType] = facetAggregation;
+    }
+
+    // push the facet based aggregation pipelines
+    aggregation.push({ $facet: facets });
+
     // Read DB
     const consumptionsMDB = await global.database.getCollection<Consumption>(tenantID, 'consumptions')
       .aggregate(aggregation, { allowDiskUse: true })
       .toArray();
+
+    const siteAreaData: SiteAreaValues = {
+      assetConsumptions: consumptionsMDB[0][SiteAreaValueTypes.ASSET_CONSUMPTIONS],
+      assetProductions: consumptionsMDB[0][SiteAreaValueTypes.ASSET_PRODUCTIONS],
+      chargingStationConsumptions: consumptionsMDB[0][SiteAreaValueTypes.CHARGING_STATION_CONSUMPTIONS],
+      netConsumptions: consumptionsMDB[0][SiteAreaValueTypes.NET_CONSUMPTIONS]
+    };
+
     // Debug
     await Logging.traceEnd(tenantID, MODULE_NAME, 'getSiteAreaConsumptions', uniqueTimerID, consumptionsMDB);
-    return consumptionsMDB;
+    return siteAreaData;
   }
 
   static async getTransactionConsumptions(tenantID: string, params: { transactionId: number },

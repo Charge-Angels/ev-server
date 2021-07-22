@@ -34,6 +34,10 @@ export interface FilterParams {
   [param: string]: any | string[];
 }
 
+export interface GroupParams {
+  [param: string]: any;
+}
+
 export interface ActionsResponse {
   inSuccess: number;
   inError: number;
