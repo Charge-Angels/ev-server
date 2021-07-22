@@ -183,6 +183,28 @@ export default class UserStorage {
     await Logging.traceEnd(tenantID, MODULE_NAME, 'addSitesToUser', uniqueTimerID, siteIDs);
   }
 
+  public static async addSiteToUser(tenantID: string, userID: string, siteID: string): Promise<string> {
+    // Debug
+    const uniqueTimerID = Logging.traceStart(tenantID, MODULE_NAME, 'addSitesToUser');
+    // Check Tenant
+    await DatabaseUtils.checkTenant(tenantID);
+    const siteUserMDB = {
+      '_id': Cypher.hash(`${siteID}~${userID}`),
+      'userID': DatabaseUtils.convertToObjectID(userID),
+      'siteID': DatabaseUtils.convertToObjectID(siteID),
+      'siteAdmin': false
+    };
+    // Execute
+    await global.database.getCollection<User>(tenantID, 'siteusers').findOneAndUpdate(
+      { userID: siteUserMDB.userID, siteID: siteUserMDB.siteID },
+      { $set: siteUserMDB },
+      { upsert: true }
+    );
+    // Debug
+    await Logging.traceEnd(tenantID, MODULE_NAME, 'saveUser', uniqueTimerID, siteID);
+    return siteUserMDB._id;
+  }
+
   public static async saveUser(tenantID: string, userToSave: User, saveImage = false): Promise<string> {
     // Debug
     const uniqueTimerID = Logging.traceStart(tenantID, MODULE_NAME, 'saveUser');
@@ -217,6 +239,7 @@ export default class UserStorage {
       locale: userToSave.locale,
       iNumber: userToSave.iNumber,
       costCenter: userToSave.costCenter,
+      importedData: userToSave.importedData,
       notificationsActive: userToSave.notificationsActive,
       notifications: {
         sendSessionStarted: userToSave.notifications ? Utils.convertToBoolean(userToSave.notifications.sendSessionStarted) : false,
@@ -284,7 +307,9 @@ export default class UserStorage {
       status: importedUserToSave.status,
       errorDescription: importedUserToSave.errorDescription,
       importedOn: Utils.convertToDate(importedUserToSave.importedOn),
-      importedBy: DatabaseUtils.convertToObjectID(importedUserToSave.importedBy)
+      importedBy: DatabaseUtils.convertToObjectID(importedUserToSave.importedBy),
+      importedData: importedUserToSave.importedData,
+      siteIDs: importedUserToSave.siteIDs,
     };
     await global.database.getCollection<any>(tenantID, 'importedusers').findOneAndUpdate(
       { _id: userMDB._id },
@@ -306,7 +331,9 @@ export default class UserStorage {
       status: importedUserToSave.status,
       errorDescription: importedUserToSave.errorDescription,
       importedOn: Utils.convertToDate(importedUserToSave.importedOn),
-      importedBy: DatabaseUtils.convertToObjectID(importedUserToSave.importedBy)
+      importedBy: DatabaseUtils.convertToObjectID(importedUserToSave.importedBy),
+      importedData: importedUserToSave.importedData,
+      siteIDs: importedUserToSave.siteIDs,
     }));
     // Insert all at once
     const result = await global.database.getCollection<any>(tenantID, 'importedusers').insertMany(
@@ -707,7 +734,7 @@ export default class UserStorage {
     // Check Tenant
     await DatabaseUtils.checkTenant(tenantID);
     // Count documents
-    const nbrOfDocuments = await global.database.getCollection<any>(tenantID, 'importedusers').count();
+    const nbrOfDocuments = await global.database.getCollection<any>(tenantID, 'importedusers').countDocuments();
     // Debug
     await Logging.traceEnd(tenantID, MODULE_NAME, 'getImportedUsersCount', uniqueTimerID);
     return nbrOfDocuments;

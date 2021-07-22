@@ -503,8 +503,16 @@ export default class AuthService {
         message: 'Wrong Verification Token'
       });
     }
-    const userSettings = await SettingStorage.getUserSettings(tenant.id);
-    const userStatus = userSettings.user.autoActivateAccountAfterValidation ? UserStatus.ACTIVE : UserStatus.INACTIVE;
+    // Save User Status
+    let userStatus: UserStatus;
+    // When it's user creation case we take the user settings
+    if (!user.importedData) {
+      const userSettings = await SettingStorage.getUserSettings(tenant.id);
+      userStatus = userSettings.user.autoActivateAccountAfterValidation ? UserStatus.ACTIVE : UserStatus.INACTIVE;
+    } else {
+      // When it's user import case we take checkbox param saved to db
+      userStatus = user.importedData.autoActivateUserAtImport ? UserStatus.ACTIVE : UserStatus.INACTIVE;
+    }
     // Save User Status
     await UserStorage.saveUserStatus(tenant.id, user.id, userStatus);
     // For integration with billing

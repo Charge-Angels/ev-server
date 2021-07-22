@@ -274,6 +274,11 @@ export default class RemotePushNotificationTask implements NotificationTask {
     return Promise.resolve();
   }
 
+  public async sendVerificationEmailUserImport(data: VerificationEmailNotification, user: User, tenant: Tenant, severity: NotificationSeverity): Promise<void> {
+    // Nothing to send
+    return Promise.resolve();
+  }
+
   public async sendSmtpError(data: SmtpErrorNotification, user: User, tenant: Tenant, severity: NotificationSeverity): Promise<void> {
     // Set the locale
     const i18nManager = I18nManager.getInstanceForLocale(user.locale);
@@ -430,6 +435,11 @@ export default class RemotePushNotificationTask implements NotificationTask {
   }
 
   public async sendAdminAccountVerificationNotification(): Promise<void> {
+    // Nothing to send
+    return Promise.resolve();
+  }
+
+  public async sendUserCreatePassword(): Promise<void> {
     // Nothing to send
     return Promise.resolve();
   }

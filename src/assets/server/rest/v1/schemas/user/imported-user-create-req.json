@@ -38,6 +38,19 @@
     },
     "notifications": {
       "$ref": "user.json#/definitions/notifications"
+    },
+    "siteIDs": {
+      "type": "string",
+      "sanitize": "mongo"
+    },
+    "importedData": {
+      "type": "object",
+      "properties": {
+        "autoActivateUserAtImport": {
+          "type": "boolean",
+          "sanitize": "mongo"
+        }
+      }
     }
   },
   "required": [

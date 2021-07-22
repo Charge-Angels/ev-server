@@ -1,15 +1,15 @@
 {
-  "subject": "Vérification compte utilisateur",
+  "subject": "New account created",
   "tenant": "",
   "baseURL": "<%- evseDashboardURL %>",
   "body": {
     "header": {
-      "title": "Vérification compte utilisateur",
+      "title": "New account created",
       "image": {
         "left": {
           "height": 60,
           "url": "<%- tenantLogoURL %>"
-        },  
+        },
         "right": {
           "height": 50,
           "url": "<%- evseDashboardURL %>/assets/img/info.png"
@@ -17,21 +17,22 @@
       }
     },
     "beforeActionLines": [
-      "Cher Administrateur,",
+      "Hi <%- (user.firstName?user.firstName:user.name) %>,",
       "",
-      "Un nouvel utilisateur avec l'email '<%- user.email %>' vient de créer un compte.",
+      "An account has just been created on your behalf in <%- tenantName %> organisation.",
       "",
-      "Suivez le lien ci-dessous pour le vérifier et l'activer."
+      "Click on the link below to complete the activation."
     ],
     "actions": [{
-      "title": "Vérifier le compte",
-      "url": "<%- evseUserToVerifyURL %>"
+      "title": "Activate your Account",
+      "url": "<%- evseDashboardVerifyEmailURL %>"
     }],
     "afterActionLines": [
-      "Cordialement,",
+      "Best Regards,",
       "EV Admins."
     ],
     "footer": {
     }
   }
 }
+

@@ -46,6 +46,8 @@ export enum StartTransactionErrorCode {
   BILLING_NO_TAX = 'billing_no_tax', // start transaction is not possible - the tax ID is not set or inconsistent
   BILLING_NO_SETTINGS = 'billing_no_settings', // start transaction not possible - billing settings are not set (or partially set)
   BILLING_INCONSISTENT_SETTINGS = 'billing_inconsistent_settings', // start transaction not possible - billing settings are inconsistent
+  // EULA not accepted : should never be possible with remote start from the app - to be checked if needed in frontend
+  EULA_NOT_ACCEPTED = 'eula_not_accepted', // start transaction not possible - user has never accepted the eula (use case : user import + user has never log into the app)
 }
 
 export default interface Transaction extends AbstractCurrentConsumption {

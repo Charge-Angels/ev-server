@@ -34,6 +34,7 @@ import TransactionStorage from '../../../../storage/mongodb/TransactionStorage';
 import UserToken from '../../../../types/UserToken';
 import UserValidator from '../validator/UserValidator';
 import Utils from '../../../../utils/Utils';
+import UtilsSecurity from './security/UtilsSecurity';
 import UtilsService from './UtilsService';
 import csvToJson from 'csvtojson/v2';
 
@@ -336,6 +337,10 @@ export default class TagService {
               // Set default value
               tag.importedBy = importedBy;
               tag.importedOn = importedOn;
+              tag.importedData = {
+                'autoActivateUserAtImport' : UtilsSecurity.filterBoolean(req.headers.autoactivateuseratimport),
+                'autoActivateTagAtImport' :  UtilsSecurity.filterBoolean(req.headers.autoactivatetagatimport)
+              };
               // Import
               const importSuccess = await TagService.processTag(action, req, tag, tagsToBeImported);
               if (!importSuccess) {
@@ -622,32 +627,39 @@ export default class TagService {
       const newImportedTag: ImportedTag = {
         id: importedTag.id.toUpperCase(),
         visualID: importedTag.visualID,
-        description: importedTag.description ? importedTag.description : `Tag ID '${importedTag.id}'`
+        description: importedTag.description ? importedTag.description : `Tag ID '${importedTag.id}'`,
+        importedData: importedTag.importedData
       };
-      if (importedTag.name && importedTag.firstName && importedTag.email) {
-        newImportedTag.name = importedTag.name.toUpperCase();
-        newImportedTag.firstName = importedTag.firstName;
-        newImportedTag.email = importedTag.email;
-      }
       // Validate Tag data
       TagValidator.getInstance().validateImportedTagCreation(newImportedTag);
       // Set properties
       newImportedTag.importedBy = importedTag.importedBy;
       newImportedTag.importedOn = importedTag.importedOn;
       newImportedTag.status = ImportStatus.READY;
-      try {
-        UserValidator.getInstance().validateImportedUserCreation(newImportedTag as ImportedUser);
-      } catch (error) {
-        await Logging.logWarning({
-          tenantID: req.user.tenantID,
-          module: MODULE_NAME, method: 'processTag',
-          action: action,
-          message: `User cannot be imported tag ${newImportedTag.id}`,
-          detailedMessages: { tag: newImportedTag, error: error.stack }
-        });
+      let tagToImport = newImportedTag;
+      // handle user part
+      if (importedTag.name && importedTag.firstName && importedTag.email) {
+        const newImportedUser: ImportedUser = {
+          name: importedTag.name.toUpperCase(),
+          firstName: importedTag.firstName,
+          email: importedTag.email,
+          siteIDs: importedTag.siteIDs
+        };
+        try {
+          UserValidator.getInstance().validateImportedUserCreation(newImportedUser);
+          tagToImport = { ...tagToImport, ...newImportedUser };
+        } catch (error) {
+          await Logging.logWarning({
+            tenantID: req.user.tenantID,
+            module: MODULE_NAME, method: 'processTag',
+            action: action,
+            message: `User cannot be imported with tag ${newImportedTag.id}`,
+            detailedMessages: { tag: newImportedTag, error: error.message, stack: error.stack }
+          });
+        }
       }
       // Save it later on
-      tagsToBeImported.push(newImportedTag);
+      tagsToBeImported.push(tagToImport);
       return true;
     } catch (error) {
       await Logging.logError({

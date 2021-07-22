@@ -6,10 +6,6 @@
       "type": "boolean",
       "sanitize": "mongo"
     },
-    "WithTag": {
-      "type": "boolean",
-      "sanitize": "mongo"
-    },
     "SiteID": {
       "$ref": "common.json#/definitions/ids"
     },
