@@ -72,3 +72,27 @@ export enum IothinkProperty {
   IO_ENERGY_DISCHARGE = 'io-energy-discharge',
   IO_SOC = 'io-soc',
 }
+
+export interface LacroixResponse {
+  userID: string;
+  subscriptionRef: string
+  period: string;
+  groupBy: string;
+  data: LacroixDataPoint[]
+}
+
+export interface LacroixDataPoint {
+  date: string;
+  powerApparentConsumedTotal:	number;
+  powerApparentReference:	number;
+  powerApparentConsumed1:	number;
+  powerApparentConsumed2:	number;
+  powerApparentConsumed3: number;
+}
+
+export enum LacroixPeriods {
+  LAST = 'last',
+  FIVE_MINUTES = '5m',
+  ONE_HOUR = '1h',
+  ONE_DAY = 'day',
+}

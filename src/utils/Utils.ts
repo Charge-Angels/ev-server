@@ -1453,6 +1453,10 @@ export default class Utils {
     if (url.includes('kheiron')) {
       return PerformanceRecordGroup.IOTHINK;
     }
+    // Lacroix
+    if (url.includes('esoflink')) {
+      return PerformanceRecordGroup.LACROIX;
+    }
     // EV Database
     if (url.includes('ev-database')) {
       return PerformanceRecordGroup.EV_DATABASE;

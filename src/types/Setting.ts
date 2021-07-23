@@ -280,6 +280,7 @@ export interface AssetConnectionSetting {
   greencomConnection?: AssetGreencomConnectionType;
   iothinkConnection?: AssetIothinkConnectionType;
   witConnection?: AssetWitConnectionType;
+  lacroixConnection?: AssetLacroixConnectionType
 }
 
 export enum AssetConnectionType {
@@ -287,6 +288,7 @@ export enum AssetConnectionType {
   GREENCOM = 'greencom',
   IOTHINK = 'iothink',
   WIT = 'wit',
+  LACROIX = 'lacroix'
 }
 
 export interface AssetUserPasswordConnectionType {
@@ -299,13 +301,11 @@ export interface AssetGreencomConnectionType {
   clientSecret: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AssetSchneiderConnectionType extends AssetUserPasswordConnectionType {
-}
+export type AssetSchneiderConnectionType = AssetUserPasswordConnectionType;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AssetIothinkConnectionType extends AssetUserPasswordConnectionType {
-}
+export type AssetIothinkConnectionType = AssetUserPasswordConnectionType;
+
+export type AssetLacroixConnectionType = AssetUserPasswordConnectionType;
 
 export interface AssetWitConnectionType extends AssetUserPasswordConnectionType {
   clientId: string;

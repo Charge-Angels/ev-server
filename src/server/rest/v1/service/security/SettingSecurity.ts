@@ -244,6 +244,12 @@ export default class SettingSecurity {
                   password: sanitize(connection.witConnection.password),
                 };
                 break;
+              case AssetConnectionType.LACROIX:
+                sanitizedConnection.lacroixConnection = {
+                  user: sanitize(connection.lacroixConnection.user),
+                  password: sanitize(connection.lacroixConnection.password),
+                };
+                break;
             }
             settings.content.asset.connections.push(sanitizedConnection);
           }

@@ -265,6 +265,103 @@ export default class ConsumptionStorage {
     return consumptionsMDB;
   }
 
+  static async getSiteAreaChargingStationConsumptions(tenant: Tenant,
+      params: { siteAreaID: string; startDate: Date; endDate: Date }, dbParams: DbParams = Constants.DB_PARAMS_MAX_LIMIT,
+      projectFields?: string[]): Promise<DataResult<Consumption>> {
+    // Debug
+    const uniqueTimerID = Logging.traceStart(tenant.id, MODULE_NAME, 'getSiteAreaChargingStationConsumptions');
+    // Check
+    DatabaseUtils.checkTenantObject(tenant);
+    // Clone before updating the values
+    dbParams = Utils.cloneObject(dbParams);
+    // Check Limit
+    dbParams.limit = Utils.checkRecordLimit(dbParams.limit);
+    // Check Skip
+    dbParams.skip = Utils.checkRecordSkip(dbParams.skip);
+    // Sort
+    if (!dbParams.sort) {
+      dbParams.sort = { endedAt: 1 };
+    }
+    // Create Aggregation
+    const aggregation = [];
+    // Create filters
+    const filters: FilterParams = {};
+    // ID
+    if (params.siteAreaID) {
+      filters.siteAreaID = DatabaseUtils.convertToObjectID(params.siteAreaID);
+    }
+    // Date provided?
+    if (params.startDate || params.endDate) {
+      filters.endedAt = {};
+    }
+    // Start date
+    if (params.startDate) {
+      filters.endedAt.$gte = Utils.convertToDate(params.startDate);
+    }
+    // End date
+    if (params.endDate) {
+      filters.endedAt.$lte = Utils.convertToDate(params.endDate);
+    }
+    // Check that charging station is set
+    filters.chargeBoxID = { '$ne': null };
+    // Filters
+    if (filters) {
+      aggregation.push({
+        $match: filters
+      });
+    }
+    aggregation.push({
+      $sort: dbParams.sort
+    });
+    // Skip
+    aggregation.push({
+      $skip: dbParams.skip
+    });
+    // Limit
+    aggregation.push({
+      $limit: dbParams.limit
+    });
+    // Group consumption values per minute
+    aggregation.push({
+      $group: {
+        _id: {
+          year: { '$year': '$endedAt' },
+          month: { '$month': '$endedAt' },
+          day: { '$dayOfMonth': '$endedAt' },
+          hour: { '$hour': '$endedAt' },
+          minute: { '$minute': '$endedAt' }
+        },
+        instantWatts: { $sum: '$instantWatts' },
+        instantWattsL1: { $sum: '$instantWattsL1' },
+        instantWattsL2: { $sum: '$instantWattsL2' },
+        instantWattsL3: { $sum: '$instantWattsL3' },
+        instantAmps: { $sum: '$instantAmps' },
+        limitWatts: { $last: '$limitSiteAreaWatts' },
+        limitAmps: { $last: '$limitSiteAreaAmps' }
+      }
+    });
+    // Rebuild the date
+    aggregation.push({
+      $addFields: {
+        endedAt: {
+          $dateFromParts: { 'year': '$_id.year', 'month': '$_id.month', 'day': '$_id.day', 'hour': '$_id.hour', 'minute': '$_id.minute' }
+        }
+      }
+    });
+    // Project
+    DatabaseUtils.projectFields(aggregation, projectFields, ['_id']);
+    // Read DB
+    const consumptionsMDB = await global.database.getCollection<Consumption>(tenant.id, 'consumptions')
+      .aggregate(aggregation, { allowDiskUse: true })
+      .toArray();
+    // Debug
+    await Logging.traceEnd(tenant.id, MODULE_NAME, 'getSiteAreaChargingStationConsumptions', uniqueTimerID, consumptionsMDB);
+    return {
+      count: consumptionsMDB.length,
+      result: consumptionsMDB
+    };
+  }
+
   static async getTransactionConsumptions(tenantID: string, params: { transactionId: number },
       dbParams: DbParams = Constants.DB_PARAMS_MAX_LIMIT, projectFields?: string[]): Promise<DataResult<Consumption>> {
     // Debug

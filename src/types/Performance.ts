@@ -39,6 +39,7 @@ export enum PerformanceRecordGroup {
   STRIPE = 'stripe',
   RECAPTCHA = 'recaptcha',
   IOTHINK = 'iothink',
+  LACROIX = 'lacroix',
   EV_DATABASE = 'ev-database',
   WIT = 'wit',
   SAP_SMART_CHARGING = 'sap-smart-charging',

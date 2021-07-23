@@ -3,6 +3,7 @@ import { AssetConnectionType, AssetSetting } from '../../types/Setting';
 import AssetIntegration from './AssetIntegration';
 import GreencomAssetIntegration from './greencom/GreencomAssetIntegration';
 import IothinkAssetIntegration from './iothink/IothinkAssetIntegration';
+import LacroixAssetIntegration from './lacroix/LacroixAssetIntegration';
 import Logging from '../../utils/Logging';
 import SchneiderAssetIntegration from './schneider/SchneiderAssetIntegration';
 import { ServerAction } from '../../types/Server';
@@ -37,6 +38,9 @@ export default class AssetFactory {
               break;
             case AssetConnectionType.WIT:
               assetIntegrationImpl = new WitAssetIntegration(tenant, settings.asset, foundConnection);
+              break;
+            case AssetConnectionType.LACROIX:
+              assetIntegrationImpl = new LacroixAssetIntegration(tenant, settings.asset, foundConnection);
               break;
           }
           return assetIntegrationImpl;
