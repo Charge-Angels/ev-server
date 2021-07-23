@@ -42,7 +42,7 @@ export default class BillTransactionAsyncTask extends AbstractAsyncTask {
               transaction.billingData.stop = billingDataStop;
               transaction.billingData.lastUpdate = new Date();
               // Save
-              await TransactionStorage.saveTransaction(tenant.id, transaction);
+              await TransactionStorage.saveTransactionBillingData(tenant.id, Number(transaction.id), transaction.billingData);
             } finally {
               // Release the lock
               await LockingManager.release(transactionLock);

@@ -461,7 +461,7 @@ export default class StripeBillingIntegration extends BillingIntegration {
         transaction.billingData.stop.invoiceNumber = billingInvoice.number;
         transaction.billingData.lastUpdate = new Date();
         // Save
-        await TransactionStorage.saveTransaction(this.tenant.id, transaction);
+        await TransactionStorage.saveTransactionBillingData(this.tenant.id, Number(transactionID), transaction.billingData);
       } catch (error) {
         // Catch stripe errors and send the information back to the client
         await Logging.logError({
