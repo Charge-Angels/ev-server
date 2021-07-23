@@ -153,9 +153,16 @@ export default class LockingHelper {
     return lock;
   }
 
-  public static async acquireBillTransactionLock(tenantID: string, transactionID: number): Promise<Lock | null> {
-    const lock = LockingManager.createExclusiveLock(tenantID, LockEntity.TRANSACTION, `bill-transaction-${transactionID}`);
-    if (!(await LockingManager.acquire(lock))) {
+  public static async acquireBillUserLock(tenantID: string, userID: string): Promise<Lock | null> {
+    const lock = LockingManager.createExclusiveLock(tenantID, LockEntity.USER, `bill-user-${userID}`);
+    // ----------------------------------------------------------------------------------------
+    // We may have concurrent attempts to create an invoice when running billing async tasks.
+    // On the otherhand, we cannot just give up too early in case of conflicts
+    // To prevent such situation, we have here a timeout of 60 seconds.
+    // This means that we assume here that the billing concrete layer (stripe) will be able to
+    // create within a minute both the invoice item and the corresponding invoice.
+    // ----------------------------------------------------------------------------------------
+    if (!(await LockingManager.acquire(lock, 60 /* , timeoutSecs) */))) {
       return null;
     }
     return lock;

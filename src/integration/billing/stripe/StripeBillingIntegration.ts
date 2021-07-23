@@ -966,6 +966,7 @@ export default class StripeBillingIntegration extends BillingIntegration {
       tenantID: this.tenant.id,
       parameters: {
         transactionID: String(transaction.id),
+        userID: transaction.userID
       },
       module: MODULE_NAME,
       method: 'stopTransaction',
